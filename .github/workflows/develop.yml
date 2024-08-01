@@ -26,8 +26,8 @@ jobs:
       - name: Run ktlint check
         run: ./gradlew ktlintCheck
 
-      - name: Run Tests
-        run: ./gradlew test
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest --stacktrace
 
       - name: Build Shop
         run: ./gradlew assemble
