@@ -29,5 +29,5 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest --stacktrace
 
-      - name: Build Shop
-        run: ./gradlew assemble
+      - name: Build Project
+        run: ./gradlew :app:buildDebug
