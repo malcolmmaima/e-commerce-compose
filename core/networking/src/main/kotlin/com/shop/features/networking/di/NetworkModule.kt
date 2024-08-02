@@ -1,8 +1,9 @@
 package com.shop.features.networking.di
 
-import com.shop.core.features.networking.BuildConfig
-import com.slack.eithernet.ApiResultCallAdapterFactory
-import com.slack.eithernet.ApiResultConverterFactory
+import com.shop.features.networking.api.ProductApiService
+import com.shop.features.networking.repository.ProductRepository
+import com.shop.utils.coroutine.ContextProvider
+import com.shop.utils.coroutine.ContextProviderImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -12,10 +13,8 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -24,6 +23,11 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = "https://my-json-server.typicode.com/carry1stdeveloper/mock-product-api/"
+
+    @Provides
+    @Singleton
+    fun provideContextProvider(): ContextProvider = ContextProviderImpl()
+
     @Singleton
     @Provides
     fun provideMoshi(): Moshi = Moshi
@@ -35,35 +39,35 @@ object NetworkModule {
     @IODispatcher
     fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @Singleton
     @Provides
-    fun provideOkhttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .writeTimeout(20, TimeUnit.SECONDS)
-        .addNetworkInterceptor(
-            HttpLoggingInterceptor().apply {
-                level =
-                    if (BuildConfig.DEBUG) {
-                        HttpLoggingInterceptor.Level.BODY
-                    } else {
-                        HttpLoggingInterceptor.Level.NONE
-                    }
-            }
-        ).build()
+    @Singleton
+    fun providesOkhttp(): OkHttpClient {
+        return OkHttpClient.Builder().build()
+    }
 
-    @Singleton
     @Provides
-    fun provideRetrofitBuilder(
-        moshi: Moshi,
-        okHttpClient: OkHttpClient
-    ): Retrofit.Builder = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(ApiResultConverterFactory)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(ApiResultCallAdapterFactory)
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductsApiService(retrofit: Retrofit): ProductApiService {
+        return retrofit.create(ProductApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository(apiService: ProductApiService): ProductRepository {
+        return ProductRepository(apiService)
+    }
+
 }
+
 
 @Retention(AnnotationRetention.BINARY)
 @Qualifier

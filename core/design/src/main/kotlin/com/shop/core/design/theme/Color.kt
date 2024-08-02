@@ -1,77 +1,52 @@
 package com.shop.core.design.theme
 
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF626200)
-val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFFEAEA00)
-val md_theme_light_onPrimaryContainer = Color(0xFF1D1D00)
-val md_theme_light_secondary = Color(0xFF626200)
-val md_theme_light_onSecondary = Color(0xFFFFFFFF)
-val md_theme_light_secondaryContainer = Color(0xFFEAEA31)
-val md_theme_light_onSecondaryContainer = Color(0xFF1D1D00)
-val md_theme_light_tertiary = Color(0xFF626200)
-val md_theme_light_onTertiary = Color(0xFFFFFFFF)
-val md_theme_light_tertiaryContainer = Color(0xFFE9E949)
-val md_theme_light_onTertiaryContainer = Color(0xFF1D1D00)
-val md_theme_light_error = Color(0xFFBA1A1A)
-val md_theme_light_errorContainer = Color(0xFFFFDAD6)
-val md_theme_light_onError = Color(0xFFFFFFFF)
-val md_theme_light_onErrorContainer = Color(0xFF410002)
-val md_theme_light_background = Color(0xFFFFFBFF)
-val md_theme_light_onBackground = Color(0xFF1C1D00)
-val md_theme_light_surface = Color(0xFFFFFBFF)
-val md_theme_light_onSurface = Color(0xFF1C1D00)
-val md_theme_light_surfaceVariant = Color(0xFFE6E3D1)
-val md_theme_light_onSurfaceVariant = Color(0xFF48473A)
-val md_theme_light_outline = Color(0xFF797869)
-val md_theme_light_inverseOnSurface = Color(0xFFF5F77E)
-val md_theme_light_inverseSurface = Color(0xFF313300)
-val md_theme_light_inversePrimary = Color(0xFFCDCD00)
-val md_theme_light_shadow = Color(0xFF000000)
-val md_theme_light_surfaceTint = Color(0xFF626200)
-val md_theme_light_outlineVariant = Color(0xFFCAC7B6)
-val md_theme_light_scrim = Color(0xFF000000)
+// Color definitions
+private val WhiteLight = Color(0xFFFFFFFF)
+private val WhiteLight_85A = Color(0xD9FFFFFF)
+private val WhiteDark = Color(0xF2CCCCCC)
 
-val md_theme_dark_primary = Color(0xFFCDCD00)
-val md_theme_dark_onPrimary = Color(0xFF323200)
-val md_theme_dark_primaryContainer = Color(0xFF494900)
-val md_theme_dark_onPrimaryContainer = Color(0xFFEAEA00)
-val md_theme_dark_secondary = Color(0xFFCDCD00)
-val md_theme_dark_onSecondary = Color(0xFF323200)
-val md_theme_dark_secondaryContainer = Color(0xFF494900)
-val md_theme_dark_onSecondaryContainer = Color(0xFFEAEA31)
-val md_theme_dark_tertiary = Color(0xFFCDCD2D)
-val md_theme_dark_onTertiary = Color(0xFF323200)
-val md_theme_dark_tertiaryContainer = Color(0xFF494900)
-val md_theme_dark_onTertiaryContainer = Color(0xFFE9E949)
-val md_theme_dark_error = Color(0xFFFFB4AB)
-val md_theme_dark_errorContainer = Color(0xFF93000A)
-val md_theme_dark_onError = Color(0xFF690005)
-val md_theme_dark_onErrorContainer = Color(0xFFFFDAD6)
-val md_theme_dark_background = Color(0xFF1C1D00)
-val md_theme_dark_onBackground = Color(0xFFE6E971)
-val md_theme_dark_surface = Color(0xFF1C1D00)
-val md_theme_dark_onSurface = Color(0xFFE6E971)
-val md_theme_dark_surfaceVariant = Color(0xFF48473A)
-val md_theme_dark_onSurfaceVariant = Color(0xFFCAC7B6)
-val md_theme_dark_outline = Color(0xFF939182)
-val md_theme_dark_inverseOnSurface = Color(0xFF1C1D00)
-val md_theme_dark_inverseSurface = Color(0xFFE6E971)
-val md_theme_dark_inversePrimary = Color(0xFF626200)
-val md_theme_dark_shadow = Color(0xFF000000)
-val md_theme_dark_surfaceTint = Color(0xFFCDCD00)
-val md_theme_dark_outlineVariant = Color(0xFF48473A)
-val md_theme_dark_scrim = Color(0xFF000000)
+private val BlueLight = Color(0xFF337BE2)
+private val BlueDark = Color(0xFF4189EF)
 
+private val GreyLight = Color(0xFFDDDDDD)
+private val GreyDark = Color(0xFF555555)
 
-val seed = Color(0xFFFFFF00)
-val Primary = Color(0xFFFFFF00)
-val light_Primary = Color(0xFF626200)
-val light_onPrimary = Color(0xFFFFFFFF)
-val light_PrimaryContainer = Color(0xFFEAEA00)
-val light_onPrimaryContainer = Color(0xFF1D1D00)
-val dark_Primary = Color(0xFFCDCD00)
-val dark_onPrimary = Color(0xFF323200)
-val dark_PrimaryContainer = Color(0xFF494900)
-val dark_onPrimaryContainer = Color(0xFFEAEA00)
+private val Black = Color(0xFF131313)
+private val Black_85A = Color(0xA6333333)
+
+private val Aqua = Color(0xFF00BCD4)
+private val Teal = Color(0xFF009688)
+
+val Red = Color(0xFFD13438)
+val Gray500 = Color(0xFF6E6E6E)
+
+// color Scheme definitions
+val LightColorScheme = lightColors(
+    primary = BlueLight,
+    onPrimary = WhiteLight,
+    secondary = GreyLight,
+    background = WhiteLight,
+    onBackground = Black,
+    surface = WhiteLight,
+    onSurface = Black,
+    primaryVariant = Aqua,
+    secondaryVariant = Teal,
+    error = Red
+)
+
+val DarkColorScheme = darkColors(
+    primary = BlueDark,
+    onPrimary = WhiteDark,
+    secondary = GreyDark,
+    background = Black,
+    onBackground = WhiteDark,
+    surface = Black,
+    onSurface = WhiteDark,
+    primaryVariant = Aqua,
+    secondaryVariant = Teal,
+    error = Red
+)

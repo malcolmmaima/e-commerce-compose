@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">E Commerce Compose</string>
+    <string name="app_name">Carry Shop</string>
+    <string name="shop">Shop</string>
+    <string name="bottom_menu_settings">Settings</string>
 </resources>

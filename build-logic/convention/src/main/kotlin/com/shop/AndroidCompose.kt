@@ -24,6 +24,12 @@ internal fun Project.configureAndroidCompose(
             add("implementation", libs.findBundle("compose").get())
             add("debugImplementation", libs.findLibrary("compose.ui.tooling").get())
             add("implementation", libs.findLibrary("compose.ui.util").get())
+
+
+            add("implementation", libs.findLibrary("compose.navigation").get())
+            add("implementation", libs.findLibrary("compose.destinations.core").get())
+            add("implementation", libs.findLibrary("compose.destinations.animations.core").get())
+            add("ksp", libs.findLibrary("compose.destinations.ksp").get())
         }
     }
 }

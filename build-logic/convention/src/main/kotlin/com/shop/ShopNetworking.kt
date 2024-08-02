@@ -18,6 +18,7 @@ internal fun Project.configureNetworking(
             add("testImplementation", (libs.findLibrary("slack.eithernet").get()))
             add("implementation", (libs.findLibrary("okhttp.logging").get()))
             add("ksp", (libs.findLibrary("moshi.codegen").get()))
+            add("implementation", (libs.findLibrary("kotlinx.serialization.json").get()))
         }
     }
 }

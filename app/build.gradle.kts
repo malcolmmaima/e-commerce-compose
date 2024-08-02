@@ -51,6 +51,5 @@ dependencies {
     implementation(project(":core:design"))
     implementation(project(":core:networking"))
     implementation(project(":features:shop"))
-
-    implementation(libs.accompanist.ui.controller)
+    implementation(project(":core:utils"))
 }
