@@ -148,11 +148,11 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
             sheetContent = {
                 ProductDetailBottomSheet(
                     product = product,
-                    onAddToCartClicked = {
-                        //viewModel.addToCart(product)
+                    onAddToCartClicked = { selectedQuantity ->
+                        viewModel.addToCart(product, selectedQuantity)
                         coroutineScope.launch { bottomSheetState.hide() }
                     },
-                    onDismiss = {
+                    onDismiss = { productId ->
                         coroutineScope.launch { bottomSheetState.hide() }
                     }
                 )

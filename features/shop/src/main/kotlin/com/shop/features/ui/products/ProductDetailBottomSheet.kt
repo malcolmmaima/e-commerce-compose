@@ -1,5 +1,6 @@
 package com.shop.features.ui.products
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,10 +8,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,67 +26,108 @@ import com.shop.utils.extensions.formatCurrency
 @Composable
 fun ProductDetailBottomSheet(
     product: ProductItemResponse,
-    onAddToCartClicked: () -> Unit,
-    onDismiss: () -> Unit
+    onAddToCartClicked: (Int) -> Unit,
+    onDismiss: (String) -> Unit
 ) {
-    LazyColumn(
+    var quantity by remember { mutableStateOf(1) }
+    val context = LocalContext.current
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.6f)
+            .fillMaxHeight(0.7f)
             .padding(16.dp)
     ) {
-        item {
-            AsyncImage(
-                model = product.imageLocation,
-                contentDescription = product.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Fit
-            )
-        }
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = product.name,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = formatCurrency(product.currencySymbol, product.price),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray,
-                    textAlign = TextAlign.End
-                )
-            }
-        }
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
+        AsyncImage(
+            model = product.imageLocation,
+            contentDescription = product.name,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Fit
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Text(
-                text = product.description,
-                style = MaterialTheme.typography.bodyMedium,
-                fontSize = 14.sp
+                text = product.name,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = formatCurrency(product.currencySymbol, product.price),
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Gray,
+                textAlign = TextAlign.End
             )
         }
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = product.description,
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 14.sp
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Button(
                 onClick = {
-                    onAddToCartClicked()
+                    if (quantity > 1) quantity -= 1
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(50))
+                    .padding(end = 8.dp)
             ) {
-                Text(text = stringResource(id = R.string.add_to_cart))
+                Text(text = "-", fontSize = 18.sp)
             }
-            Spacer(modifier = Modifier.height(32.dp))
+            Text(
+                text = quantity.toString(),
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .align(Alignment.CenterVertically)
+            )
+            Button(
+                onClick = {
+                    quantity += 1
+                },
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50))
+                    .padding(start = 8.dp)
+            ) {
+                Text(text = "+", fontSize = 18.sp)
+            }
         }
+
+        Button(
+            onClick = {
+                onAddToCartClicked(quantity)
+                Toast.makeText(
+                    context,
+                    "${product.name} added to cart",
+                    Toast.LENGTH_SHORT
+                ).show()
+                quantity = 1
+                onDismiss(product.id.toString())
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .clip(RoundedCornerShape(8.dp))
+        ) {
+            Text(text = stringResource(id = R.string.add_to_cart))
+        }
+        Spacer(modifier = Modifier.weight(1f))
     }
 }

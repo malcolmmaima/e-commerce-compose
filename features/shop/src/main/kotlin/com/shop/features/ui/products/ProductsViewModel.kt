@@ -2,6 +2,7 @@ package com.shop.features.ui.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.malcolmmaima.database.repository.CartDatabaseRepository
 import com.shop.features.networking.data.ProductItemResponse
 import com.shop.features.networking.repository.ProductRepository
 import com.shop.features.networking.util.APIResource
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val repository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val cartRepository: CartDatabaseRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<ProductItemResponse>>>(UiState.Loading)
@@ -26,7 +28,7 @@ class ProductsViewModel @Inject constructor(
     private fun fetchProducts() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            _uiState.value = when (val response = repository.getProducts()) {
+            _uiState.value = when (val response = productRepository.getProducts()) {
                 is APIResource.Success -> {
                     UiState.Success(response.value)
                 }
@@ -50,6 +52,12 @@ class ProductsViewModel @Inject constructor(
             404 -> "Resource not found"
             500 -> "Server error"
             else -> "Something went wrong"
+        }
+    }
+
+    fun addToCart(product: ProductItemResponse, selectedQuantity: Int) {
+        viewModelScope.launch {
+            cartRepository.addToCart(product, selectedQuantity)
         }
     }
 }

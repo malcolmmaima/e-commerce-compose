@@ -55,6 +55,10 @@ gradlePlugin {
             id = "ecommerceshop.testing"
             implementationClass = "TestingConventionPlugin"
         }
+        register("androidRoom") {
+            id = "ecommerceshop.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
 
     }
 }

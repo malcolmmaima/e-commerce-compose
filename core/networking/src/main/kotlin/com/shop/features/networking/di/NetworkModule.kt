@@ -1,6 +1,6 @@
 package com.shop.features.networking.di
 
-import com.shop.features.networking.api.ProductApiService
+import com.shop.features.networking.api.ProductsApiService
 import com.shop.features.networking.repository.ProductRepository
 import com.shop.utils.coroutine.ContextProvider
 import com.shop.utils.coroutine.ContextProviderImpl
@@ -56,13 +56,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideProductsApiService(retrofit: Retrofit): ProductApiService {
-        return retrofit.create(ProductApiService::class.java)
+    fun provideProductsApiService(retrofit: Retrofit): ProductsApiService {
+        return retrofit.create(ProductsApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideProductRepository(apiService: ProductApiService): ProductRepository {
+    fun provideProductRepository(apiService: ProductsApiService): ProductRepository {
         return ProductRepository(apiService)
     }
 
