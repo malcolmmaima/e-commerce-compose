@@ -90,7 +90,7 @@ fun ProductDetailBottomSheet(
                     .clip(RoundedCornerShape(50))
                     .padding(end = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (isInCart) Color.Gray else Color.LightGray,
+                    backgroundColor = if (isInCart) Color.Gray else androidx.compose.material.MaterialTheme.colors.primary,
                     contentColor = Color.White
                 ),
                 enabled = !isInCart && quantity > 1
@@ -112,7 +112,7 @@ fun ProductDetailBottomSheet(
                     .clip(RoundedCornerShape(50))
                     .padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (isInCart) Color.Gray else Color.LightGray,
+                    backgroundColor = if (isInCart) Color.Gray else androidx.compose.material.MaterialTheme.colors.primary,
                     contentColor = Color.White
                 ),
                 enabled = !isInCart
@@ -139,7 +139,7 @@ fun ProductDetailBottomSheet(
                 .padding(vertical = 8.dp)
                 .clip(RoundedCornerShape(8.dp)),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = if (isInCart) Color.Gray else Color.Blue,
+                backgroundColor = if (isInCart) Color.Gray else androidx.compose.material.MaterialTheme.colors.primary,
                 contentColor = Color.White
             ),
             enabled = !isInCart

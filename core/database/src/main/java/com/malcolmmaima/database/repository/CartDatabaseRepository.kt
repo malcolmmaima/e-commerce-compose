@@ -14,7 +14,8 @@ class CartDatabaseRepository @Inject constructor(private val cartDao: CartDao) {
             price = product.price,
             imageLocation = product.imageLocation,
             quantity = product.quantity,
-            selectedQuantity = selectedQuantity
+            selectedQuantity = selectedQuantity,
+            currencySymbol = product.currencySymbol
         )
         cartDao.insert(cartItem)
     }
@@ -23,12 +24,16 @@ class CartDatabaseRepository @Inject constructor(private val cartDao: CartDao) {
         return cartDao.getCartItem(productId)
     }
 
-    suspend fun getAllCartItems(): Flow<List<CartItem>> {
+    fun getCartItemsFlow(): Flow<List<CartItem>> {
         return cartDao.getAllCartItems()
     }
 
-    suspend fun deleteCartItem(id: String) {
-        cartDao.deleteCartItem(id)
+    suspend fun updateQuantity(cartItem: CartItem) {
+        cartDao.updateCartItem(cartItem.id, cartItem.selectedQuantity.toString())
+    }
+
+    suspend fun deleteCartItem(cartItem: CartItem) {
+        cartDao.deleteCartItem(cartItem.id)
     }
 
     suspend fun deleteAllCartItems() {

@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.shop.app.R
 
@@ -14,6 +15,10 @@ enum class BottomBarHomeItem(
     SHOP(
         title = R.string.shop,
         icon = Icons.Filled.AccountCircle
+    ),
+    CART(
+        title = R.string.cart,
+        icon = Icons.Filled.ShoppingCart
     ),
     SETTINGS(
         title = R.string.bottom_menu_settings,

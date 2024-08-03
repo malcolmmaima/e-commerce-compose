@@ -26,4 +26,7 @@ interface CartDao {
 
     @Query("DELETE FROM cartitem")
     suspend fun deleteAllCartItems()
+
+    @Query("UPDATE cartitem SET selectedQuantity = :selectedQuantity WHERE id = :id")
+    suspend fun updateCartItem(id: String, selectedQuantity: String)
 }

@@ -12,5 +12,6 @@ data class CartItem(
     val price: Double,
     val imageLocation: String,
     var quantity: Int,
-    var selectedQuantity: Int = 1
+    var selectedQuantity: Int = 1,
+    var currencySymbol: String
 )

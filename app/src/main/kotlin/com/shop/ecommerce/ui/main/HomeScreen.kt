@@ -24,12 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.shop.ecommerce.ui.main.HomeViewContract.State
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.shop.core.design.theme.ShopTheme
+import com.shop.features.ui.cart.CartScreen
 import com.shop.features.ui.products.ProductsScreen
 import com.shop.features.ui.settings.SettingsScreen
 import com.shop.utils.mvi.EffectCollector
@@ -41,20 +41,9 @@ import com.shop.utils.preview.UIModePreviews
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
-    vm: HomeViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-    // Lifecycle collection for UI state
-    val uiState: State by vm.state.collectAsStateWithLifecycle()
-
-    // State for the bottom navigation tab
     val (currentBottomTab, setCurrentBottomTab) = rememberSaveable {
         mutableStateOf(BottomBarHomeItem.SHOP)
-    }
-
-    // handle side effect in this effector
-    EffectCollector(effect = vm.effect) { effect ->
-
     }
 
     Scaffold(
@@ -71,6 +60,10 @@ fun HomeScreen(
 
             when (currentBottomTab) {
                 BottomBarHomeItem.SHOP -> ProductsScreen(
+                    modifier = modifier,
+                    navigator = navigator
+                )
+                BottomBarHomeItem.CART -> CartScreen(
                     modifier = modifier,
                     navigator = navigator
                 )
@@ -137,8 +130,7 @@ private fun HomeBottomNavigation(
 private fun HomeScreenPreview() {
     ShopTheme {
         HomeScreen(
-            navigator = MockDestinationsNavigator(),
-            vm = hiltViewModel()
+            navigator = MockDestinationsNavigator()
         )
     }
 }
