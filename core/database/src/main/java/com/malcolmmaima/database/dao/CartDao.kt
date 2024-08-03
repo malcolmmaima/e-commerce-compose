@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.malcolmmaima.database.entities.CartItem
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CartDao {
@@ -15,7 +16,10 @@ interface CartDao {
     suspend fun insertCartItems(cartItems: List<CartItem>)
 
     @Query("SELECT * FROM cartitem")
-    fun getAllCartItems(): List<CartItem>
+    fun getAllCartItems(): Flow<List<CartItem>>
+
+    @Query("SELECT * FROM cartitem WHERE id=:id")
+    fun getCartItem(id: String): Flow<CartItem>
 
     @Query("DELETE FROM cartitem WHERE id=:id")
     suspend fun deleteCartItem(id: String)

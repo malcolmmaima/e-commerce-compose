@@ -2,9 +2,9 @@ package com.shop.features.ui.products
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -26,6 +26,7 @@ import com.shop.utils.extensions.formatCurrency
 @Composable
 fun ProductDetailBottomSheet(
     product: ProductItemResponse,
+    isInCart: Boolean,
     onAddToCartClicked: (Int) -> Unit,
     onDismiss: (String) -> Unit
 ) {
@@ -87,7 +88,12 @@ fun ProductDetailBottomSheet(
                 },
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .padding(end = 8.dp)
+                    .padding(end = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = if (isInCart) Color.Gray else Color.LightGray,
+                    contentColor = Color.White
+                ),
+                enabled = !isInCart && quantity > 1
             ) {
                 Text(text = "-", fontSize = 18.sp)
             }
@@ -104,7 +110,12 @@ fun ProductDetailBottomSheet(
                 },
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .padding(start = 8.dp)
+                    .padding(start = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = if (isInCart) Color.Gray else Color.LightGray,
+                    contentColor = Color.White
+                ),
+                enabled = !isInCart
             ) {
                 Text(text = "+", fontSize = 18.sp)
             }
@@ -112,19 +123,26 @@ fun ProductDetailBottomSheet(
 
         Button(
             onClick = {
-                onAddToCartClicked(quantity)
-                Toast.makeText(
-                    context,
-                    "${product.name} added to cart",
-                    Toast.LENGTH_SHORT
-                ).show()
-                quantity = 1
-                onDismiss(product.id.toString())
+                if (!isInCart) {
+                    onAddToCartClicked(quantity)
+                    Toast.makeText(
+                        context,
+                        "${product.name} added to cart",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    quantity = 1
+                    onDismiss(product.id.toString())
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(8.dp)),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = if (isInCart) Color.Gray else Color.Blue,
+                contentColor = Color.White
+            ),
+            enabled = !isInCart
         ) {
             Text(text = stringResource(id = R.string.add_to_cart))
         }

@@ -3,7 +3,6 @@ package com.shop.features.ui.products
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -41,11 +40,11 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.ui.Alignment
 import com.shop.utils.navigation.MockDestinationsNavigator
 import com.shop.utils.preview.UIModePreviews
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -61,6 +60,7 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
     })
 
     var selectedProduct by remember { mutableStateOf<ProductItemResponse?>(null) }
+    var isInCart by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
@@ -74,6 +74,31 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
             }
         }
         else -> emptyList()
+    }
+
+    @Composable
+    fun SearchBar(
+        query: String,
+        onQueryChange: (String) -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        val borderRadius = 40.dp
+        val borderColor = Color.Gray
+
+        TextField(
+            value = query,
+            onValueChange = { newQuery -> onQueryChange(newQuery) },
+            modifier = modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(borderRadius))
+                .border(1.dp, borderColor, RoundedCornerShape(borderRadius)),
+            placeholder = { Text("Search item...") },
+            singleLine = true,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                backgroundColor = Color.Transparent,
+                focusedBorderColor = borderColor,
+            )
+        )
     }
 
     Scaffold(
@@ -116,12 +141,16 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
                                     ProductItem(product, navigator) {
                                         selectedProduct = it
                                         coroutineScope.launch {
-                                            bottomSheetState.show()
+                                            viewModel.isProductInCart(product.id.toString()).collect { inCart ->
+                                                isInCart = inCart
+                                                bottomSheetState.show()
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
                         is UiState.Error -> {
                             Box(
                                 modifier = Modifier
@@ -148,9 +177,14 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
             sheetContent = {
                 ProductDetailBottomSheet(
                     product = product,
+                    isInCart = isInCart,
                     onAddToCartClicked = { selectedQuantity ->
-                        viewModel.addToCart(product, selectedQuantity)
-                        coroutineScope.launch { bottomSheetState.hide() }
+                        coroutineScope.launch {
+                            withContext(Dispatchers.IO) {
+                                viewModel.addToCart(product, selectedQuantity)
+                            }
+                            bottomSheetState.hide()
+                        }
                     },
                     onDismiss = { productId ->
                         coroutineScope.launch { bottomSheetState.hide() }
@@ -158,36 +192,11 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
                 )
             },
             sheetState = bottomSheetState,
-            content = { /* Empty content for now */ }
+            content = {  }
         )
     }
 }
 
-
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val borderRadius = 40.dp
-    val borderColor = Color.Gray
-
-    TextField(
-        value = query,
-        onValueChange = { newQuery -> onQueryChange(newQuery) },
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(borderRadius))
-            .border(1.dp, borderColor, RoundedCornerShape(borderRadius)),
-        placeholder = { Text("Search item...") },
-        singleLine = true,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.Transparent,
-            focusedBorderColor = borderColor,
-        )
-    )
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

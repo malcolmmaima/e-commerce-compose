@@ -2,13 +2,16 @@ package com.shop.features.ui.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.malcolmmaima.database.entities.CartItem
 import com.malcolmmaima.database.repository.CartDatabaseRepository
 import com.shop.features.networking.data.ProductItemResponse
 import com.shop.features.networking.repository.ProductRepository
 import com.shop.features.networking.util.APIResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,6 +44,10 @@ class ProductsViewModel @Inject constructor(
                 }
             }
         }
+    }
+    fun isProductInCart(productId: String): Flow<Boolean> {
+        return cartRepository.getCartItemFlow(productId)
+            .map { it != null }
     }
 
     fun refreshProducts() {

@@ -4,6 +4,7 @@ import com.malcolmmaima.database.dao.CartDao
 import com.malcolmmaima.database.entities.CartItem
 import com.shop.features.networking.data.ProductItemResponse
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class CartDatabaseRepository @Inject constructor(private val cartDao: CartDao) {
     suspend fun addToCart(product: ProductItemResponse, selectedQuantity: Int) {
@@ -18,7 +19,11 @@ class CartDatabaseRepository @Inject constructor(private val cartDao: CartDao) {
         cartDao.insert(cartItem)
     }
 
-    suspend fun getAllCartItems(): List<CartItem> {
+    fun getCartItemFlow(productId: String): Flow<CartItem?> {
+        return cartDao.getCartItem(productId)
+    }
+
+    suspend fun getAllCartItems(): Flow<List<CartItem>> {
         return cartDao.getAllCartItems()
     }
 
