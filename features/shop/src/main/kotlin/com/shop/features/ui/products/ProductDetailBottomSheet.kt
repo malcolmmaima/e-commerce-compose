@@ -1,6 +1,7 @@
 package com.shop.features.ui.products
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -25,56 +26,64 @@ fun ProductDetailBottomSheet(
     onAddToCartClicked: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.6f)
             .padding(16.dp)
     ) {
-        AsyncImage(
-            model = product.imageLocation,
-            contentDescription = product.name,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.Fit
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = product.name,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.weight(1f)
-            )
-            Text(
-                text = formatCurrency(product.currencySymbol, product.price),
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.Gray,
-                textAlign = TextAlign.End
+        item {
+            AsyncImage(
+                model = product.imageLocation,
+                contentDescription = product.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Fit
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = product.description,
-            style = MaterialTheme.typography.bodyMedium,
-            fontSize = 14.sp
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                onAddToCartClicked()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .clip(RoundedCornerShape(8.dp))
-        ) {
-            Text(text = stringResource(id = R.string.add_to_cart))
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = product.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = formatCurrency(product.currencySymbol, product.price),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray,
+                    textAlign = TextAlign.End
+                )
+            }
+        }
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = product.description,
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 14.sp
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    onAddToCartClicked()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            ) {
+                Text(text = stringResource(id = R.string.add_to_cart))
+            }
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
