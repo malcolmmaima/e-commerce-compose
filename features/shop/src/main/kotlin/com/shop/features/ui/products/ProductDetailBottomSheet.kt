@@ -36,7 +36,7 @@ fun ProductDetailBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.7f)
+            .height(800.dp)
             .padding(16.dp)
     ) {
         AsyncImage(
