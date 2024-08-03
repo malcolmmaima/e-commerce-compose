@@ -174,6 +174,7 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
 
     selectedProduct?.let { product ->
         ModalBottomSheetLayout(
+            modifier = Modifier.fillMaxHeight(0.9f),
             sheetContent = {
                 ProductDetailBottomSheet(
                     product = product,

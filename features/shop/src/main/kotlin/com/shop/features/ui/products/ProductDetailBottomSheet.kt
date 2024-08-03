@@ -146,6 +146,29 @@ fun ProductDetailBottomSheet(
         ) {
             Text(text = stringResource(id = R.string.add_to_cart))
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = {
+                Toast.makeText(
+                    context,
+                    R.string.buy_now,
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = androidx.compose.material.MaterialTheme.colors.secondary,
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = stringResource(id = R.string.buy_now))
+        }
+
         Spacer(modifier = Modifier.weight(1f))
     }
 }
