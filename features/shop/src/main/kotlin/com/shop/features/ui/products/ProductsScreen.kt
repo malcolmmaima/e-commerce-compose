@@ -12,6 +12,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -38,9 +40,9 @@ import kotlinx.coroutines.launch
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.ui.Alignment
 import com.shop.utils.navigation.MockDestinationsNavigator
 import com.shop.utils.preview.UIModePreviews
@@ -57,6 +59,10 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
         viewModel.refreshProducts()
         refreshing.value = false
     })
+
+    var selectedProduct by remember { mutableStateOf<ProductItemResponse?>(null) }
+    val coroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     // filtered list based on search query
     val filteredProducts = when (val state = uiState) {
@@ -107,7 +113,12 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
                                 modifier = Modifier.fillMaxSize()
                             ) {
                                 items(filteredProducts) { product ->
-                                    ProductItem(product, navigator)
+                                    ProductItem(product, navigator) {
+                                        selectedProduct = it
+                                        coroutineScope.launch {
+                                            bottomSheetState.show()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -131,7 +142,27 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
             }
         }
     )
+
+    selectedProduct?.let { product ->
+        ModalBottomSheetLayout(
+            sheetContent = {
+                ProductDetailBottomSheet(
+                    product = product,
+                    onAddToCartClicked = {
+                        //viewModel.addToCart(product)
+                        coroutineScope.launch { bottomSheetState.hide() }
+                    },
+                    onDismiss = {
+                        coroutineScope.launch { bottomSheetState.hide() }
+                    }
+                )
+            },
+            sheetState = bottomSheetState,
+            content = { /* Empty content for now */ }
+        )
+    }
 }
+
 
 @Composable
 fun SearchBar(
@@ -158,40 +189,19 @@ fun SearchBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ProductItem(product: ProductItemResponse, navigator: DestinationsNavigator) {
+fun ProductItem(product: ProductItemResponse, navigator: DestinationsNavigator, onProductClick: (ProductItemResponse) -> Unit) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.shop.utils.R.raw.loading))
-
-    val coroutineScope = rememberCoroutineScope()
-    val showModalBottomSheet = remember { mutableStateOf(false) }
-
-    if (showModalBottomSheet.value) {
-        ModalBottomSheet(
-            onDismissRequest = { showModalBottomSheet.value = false }
-        ) {
-            QuantityScreen(
-                quantity = product.quantity,
-                onQuantityClicked = {
-                    showModalBottomSheet.value = false
-                },
-                onDismiss = { showModalBottomSheet.value = false }
-            )
-        }
-    }
 
     Card(
         modifier = Modifier
             .padding(4.dp)
             .aspectRatio(1f)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onProductClick(product) },
         elevation = 4.dp,
-        shape = MaterialTheme.shapes.medium,
-        onClick = {
-            coroutineScope.launch {
-                showModalBottomSheet.value = true
-            }
-        }
+        shape = MaterialTheme.shapes.medium
     ) {
         Box(
             modifier = Modifier
@@ -239,57 +249,6 @@ fun ProductItem(product: ProductItemResponse, navigator: DestinationsNavigator) 
         }
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun QuantityScreen(
-    modifier: Modifier = Modifier,
-    quantity: Int,
-    onQuantityClicked: (Int) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val sheetsState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-        confirmValueChange = { true }
-    )
-    val list by remember {
-        mutableStateOf((1..quantity).toList())
-    }
-
-    val scope = rememberCoroutineScope()
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss
-    ) {
-        LazyColumn(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            items(list.size) { quantity ->
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                        .clickable {
-                            onQuantityClicked(quantity)
-                            scope
-                                .launch {
-                                    sheetsState.hide()
-                                }
-                                .invokeOnCompletion {
-                                    onDismiss()
-                                }
-                        }
-                ) {
-                    Text(text = quantity.toString())
-                }
-            }
-        }
-    }
-}
-
-
 
 @UIModePreviews
 @Composable
