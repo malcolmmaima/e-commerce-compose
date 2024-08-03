@@ -41,6 +41,10 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
+    fun refreshProducts() {
+        fetchProducts()
+    }
+
     private fun mapErrorToMessage(errorCode: Int?): String {
         return when (errorCode) {
             404 -> "Resource not found"
