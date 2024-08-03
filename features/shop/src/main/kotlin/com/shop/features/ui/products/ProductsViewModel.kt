@@ -17,7 +17,7 @@ class ProductsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<ProductItemResponse>>>(UiState.Loading)
-    val uiState: StateFlow<UiState<List<ProductItemResponse>>> get() = _uiState
+    val uiState: StateFlow<UiState<List<ProductItemResponse>>> = _uiState
 
     init {
         fetchProducts()
@@ -26,32 +26,16 @@ class ProductsViewModel @Inject constructor(
     private fun fetchProducts() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            when (val result = repository.getProducts()) {
+            _uiState.value = when (val response = repository.getProducts()) {
                 is APIResource.Success -> {
-                    _uiState.value = UiState.Success(
-                        result.value.map { apiProduct ->
-                            ProductItemResponse(
-                                id = apiProduct.id,
-                                name = apiProduct.name,
-                                currencySymbol = apiProduct.currencySymbol,
-                                currencyCode = apiProduct.currencyCode,
-                                description = apiProduct.description,
-                                imageLocation = apiProduct.imageLocation,
-                                price = apiProduct.price,
-                                quantity = apiProduct.quantity,
-                                status = apiProduct.status
-                            )
-                        }
-                    )
+                    UiState.Success(response.value)
                 }
                 is APIResource.Error -> {
-                    _uiState.value = UiState.Error(
-                        mapErrorToMessage(result.errorCode)
-                    )
+                    UiState.Error(mapErrorToMessage(response.errorCode))
                 }
 
                 APIResource.Loading -> {
-                    _uiState.value = UiState.Loading
+                    UiState.Loading
                 }
             }
         }
@@ -59,12 +43,11 @@ class ProductsViewModel @Inject constructor(
 
     private fun mapErrorToMessage(errorCode: Int?): String {
         return when (errorCode) {
-            404 -> "Not found"
+            404 -> "Resource not found"
             500 -> "Server error"
             else -> "Something went wrong"
         }
     }
-
 }
 
 sealed class UiState<out T> {

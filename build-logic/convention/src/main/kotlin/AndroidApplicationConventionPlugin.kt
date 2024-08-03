@@ -42,6 +42,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("timber").get())
                 add("implementation", libs.findLibrary("core.splashscreen").get())
                 add("implementation", libs.findLibrary("core.ktx").get())
+                add("implementation", libs.findLibrary("appcompat").get())
+                add("implementation", libs.findLibrary("material").get())
             }
         }
 
