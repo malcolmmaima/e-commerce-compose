@@ -17,7 +17,6 @@ fun MainScreen() {
     val navHostEngine = rememberAnimatedNavHostEngine()
 
     // fetch state updates and set top level ui adjustments for screen destinations.
-    // also look [DestinationExt.kt]
     val destination = navController.appCurrentDestinationAsState().value
         ?: NavGraphs.root.startAppDestination
 
