@@ -31,3 +31,21 @@ jobs:
 
       - name: Build Project
         run: ./gradlew :app:buildDebug
+
+      - name: Generate Debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Generate Shop Debug bundle
+        run: ./gradlew :app:bundleDebug --stacktrace
+
+      - name: Upload debug Shop apk
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Shop debug bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug.aab
+          path: app/build/outputs/bundle/debug/app-debug.aab
