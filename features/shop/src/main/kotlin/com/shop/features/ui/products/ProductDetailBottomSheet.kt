@@ -36,7 +36,6 @@ fun ProductDetailBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(800.dp)
             .padding(16.dp)
     ) {
         AsyncImage(
@@ -153,7 +152,7 @@ fun ProductDetailBottomSheet(
             onClick = {
                 Toast.makeText(
                     context,
-                    R.string.buy_now,
+                    "Buy Now clicked",
                     Toast.LENGTH_SHORT
                 ).show()
             },

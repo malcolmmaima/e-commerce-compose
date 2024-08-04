@@ -174,7 +174,6 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
 
     selectedProduct?.let { product ->
         ModalBottomSheetLayout(
-            modifier = Modifier.fillMaxHeight(0.7f),
             sheetContent = {
                 ProductDetailBottomSheet(
                     product = product,
@@ -188,16 +187,16 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
                         }
                     },
                     onDismiss = { productId ->
-                        coroutineScope.launch { bottomSheetState.hide() }
+                        coroutineScope.launch {  bottomSheetState.hide() }
                     }
                 )
             },
             sheetState = bottomSheetState,
+            modifier = Modifier.fillMaxSize(),
             content = {  }
         )
     }
 }
-
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
