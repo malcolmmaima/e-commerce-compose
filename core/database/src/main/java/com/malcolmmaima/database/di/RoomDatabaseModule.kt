@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.malcolmmaima.database.ShopDatabase
 import com.malcolmmaima.database.dao.CartDao
+import com.malcolmmaima.database.migrations.ShopDatabaseMigrations
 import com.malcolmmaima.database.repository.CartDatabaseRepository
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,8 @@ object RoomDatabaseModule {
         context = context,
         name = "shopdatabase.db",
         klass = ShopDatabase::class.java
-    ).fallbackToDestructiveMigration()
+    ).addMigrations(ShopDatabaseMigrations.cart_migrations_1_2)
+        .fallbackToDestructiveMigration()
         .build()
 
     @Provides
