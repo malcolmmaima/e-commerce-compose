@@ -1,4 +1,4 @@
-## E-commerce Compose Shop
+## Carry Shop (Compose)
 
 This is a modular Android application designed with clean architecture principles. It provides a user-friendly interface for managing products and a shopping cart, allowing users to browse, view, and update their cart items.
 
