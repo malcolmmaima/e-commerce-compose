@@ -57,3 +57,6 @@ Can depend on one another but should avoid cyclical dependencies.
 - Build Logic Convention: Defines and maintains consistent build practices and management.
 - Eithernet (1.2.1): Sealed API result type to handle Retrofit responses effectively.
 - Moshi (1.15.0): Converts JSON into Kotlin objects and vice versa.
+
+#### App Artifacts
+The app APK and bundle can be found from the latest successful action on the GitHub Actions tab <a href="https://github.com/malcolmmaima/e-commerce-compose/actions">Actions</a>
