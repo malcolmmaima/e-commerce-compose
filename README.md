@@ -3,11 +3,14 @@
 This is a modular Android application designed with clean architecture principles. It provides a user-friendly interface for managing products and a shopping cart, allowing users to browse, view, and update their cart items.
 
 ### Screenshots
+
+##### Light
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132821.png height="450"></a>
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132543.png height="450"></a>
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132625.png height="450"></a>
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132719.png height="450"></a>
 
+##### Dark
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132932.png height="450"></a>
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132840.png height="450"></a>
 <a href="url"><img src=https://github.com/malcolmmaima/e-commerce-compose/blob/main/screenshots/Screenshot_20240803_132859.png height="450"></a>
@@ -28,9 +31,9 @@ This follows a modular architecture adhering to clean architecture principles an
   
 #### Feature Modules:
 
-- Represent individual features of the app (e.g., :features:shop).
-  Should not depend on other feature modules.
-  Depend on core modules for shared functionality.
+- Represents individual features of the app (:features:shop, :feature:anotherfeature).
+- It should not depend on other feature modules.
+- Depends on core modules for shared functionality.
   
 #### Core Modules:
 
