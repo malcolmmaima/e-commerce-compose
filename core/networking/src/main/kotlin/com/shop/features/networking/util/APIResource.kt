@@ -3,7 +3,7 @@ package com.shop.features.networking.util
 import okhttp3.ResponseBody
 
 //Handle API Success and Error responses
-sealed class APIResource<out T> {
+open class APIResource<out T> {
     data class Success<out T>(val value: T) : APIResource<T>()
     data class Error(
         val isNetworkError: Boolean,

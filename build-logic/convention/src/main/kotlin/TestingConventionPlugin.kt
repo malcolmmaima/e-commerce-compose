@@ -16,6 +16,7 @@ class TestingConventionPlugin: Plugin<Project> {
                 "api"(libs.findLibrary("testing.mock.webserver").get())
                 "api"(libs.findLibrary("testing.turbine").get())
                 "api"(libs.findLibrary("androidx.test.runner").get())
+                 "api"(libs.findLibrary("android.test.core").get())
                 add("api", (libs.findLibrary("androidx.junit.ktx").get()))
             }
         }

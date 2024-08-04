@@ -30,6 +30,7 @@ composeDestinationsVersion = "1.10.2"
 lottieVersion = "6.4.0"
 serializationJsonVersion = "1.7.1"
 material3Android = "1.2.1"
+androidArchCoreTesting = "1.1.1"
 
 [libraries]
 accompanist-ui-controller = { module = "com.google.accompanist:accompanist-systemuicontroller", version = "0.31.5-beta" }
@@ -110,6 +111,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serializationJsonVersion" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+android-test-core = { group = "android.arch.core", name = "core-testing", version.ref = "androidArchCoreTesting" }
 
 [bundles]
 compose = ["compose-foundation", "compose-foundation-layout", "compose-iconsExtended", "compose-material-windowSizeClass", "compose-runtime", "compose-ui-util", "compose-coil", "activity-compose", "compose-navigation", "compose-lifecycle","lottie-compose", "compose-material"]

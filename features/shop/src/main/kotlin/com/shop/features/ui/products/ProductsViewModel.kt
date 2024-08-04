@@ -28,7 +28,7 @@ class ProductsViewModel @Inject constructor(
         fetchProducts()
     }
 
-    private fun fetchProducts() {
+    fun fetchProducts() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             _uiState.value = when (val response = productRepository.getProducts()) {
@@ -42,6 +42,10 @@ class ProductsViewModel @Inject constructor(
                 APIResource.Loading -> {
                     UiState.Loading
                 }
+
+                else -> {
+                    UiState.Error("Something went wrong")
+                    }
             }
         }
     }
