@@ -35,9 +35,6 @@ jobs:
       - name: Generate Debug APK
         run: ./gradlew :app:assembleDebug --stacktrace
 
-      - name: Generate Shop Debug bundle
-        run: ./gradlew :app:bundle --stacktrace
-
       - name: Upload debug Shop apk
         uses: actions/upload-artifact@v3
         with:
