@@ -34,7 +34,7 @@ This follows a modular architecture adhering to clean architecture principles an
   
 #### Core Modules:
 
-- Include common code shared among features and other core modules (e.g., :core:design, :core:networking, :core:utils, :core:database).
+- Includes common code shared among features and other core modules (e.g., :core:design, :core:networking, :core:utils, :core:database).
 Can depend on one another but should avoid cyclical dependencies. 
 
 #### Libraries and Tools
