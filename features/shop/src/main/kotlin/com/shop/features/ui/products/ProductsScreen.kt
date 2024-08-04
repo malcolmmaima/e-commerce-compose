@@ -187,15 +187,20 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
                         }
                     },
                     onDismiss = { productId ->
-                        coroutineScope.launch {  bottomSheetState.hide() }
+                        coroutineScope.launch { bottomSheetState.hide() }
                     }
                 )
             },
-            sheetState = bottomSheetState,
-            modifier = Modifier.fillMaxSize(),
+            sheetState = bottomSheetState.apply {
+                coroutineScope.launch {
+                    show()
+                }
+            },
+            modifier = Modifier.fillMaxHeight(0.9f),
             content = {  }
         )
     }
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
