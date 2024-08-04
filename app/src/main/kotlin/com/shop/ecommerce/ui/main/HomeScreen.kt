@@ -24,15 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.shop.core.design.theme.ShopTheme
 import com.shop.features.ui.cart.CartScreen
 import com.shop.features.ui.products.ProductsScreen
 import com.shop.features.ui.settings.SettingsScreen
-import com.shop.utils.mvi.EffectCollector
 import com.shop.utils.navigation.FadeInOutAnimation
 import com.shop.utils.navigation.MockDestinationsNavigator
 import com.shop.utils.preview.UIModePreviews

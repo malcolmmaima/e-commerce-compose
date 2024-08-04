@@ -49,7 +49,6 @@ android {
 
 dependencies {
     implementation(project(":core:design"))
-    implementation(project(":core:networking"))
     implementation(project(":features:shop"))
     implementation(project(":core:utils"))
 }
