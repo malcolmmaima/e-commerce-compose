@@ -2,8 +2,6 @@ package com.shop.features.networking.di
 
 import com.shop.features.networking.api.ProductsApiService
 import com.shop.features.networking.repository.ProductRepository
-import com.shop.utils.coroutine.ContextProvider
-import com.shop.utils.coroutine.ContextProviderImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -23,10 +21,6 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = "https://my-json-server.typicode.com/carry1stdeveloper/mock-product-api/"
-
-    @Provides
-    @Singleton
-    fun provideContextProvider(): ContextProvider = ContextProviderImpl()
 
     @Singleton
     @Provides

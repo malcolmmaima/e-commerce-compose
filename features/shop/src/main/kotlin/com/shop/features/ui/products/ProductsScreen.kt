@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
@@ -158,9 +159,32 @@ fun ProductsScreen(modifier: Modifier = Modifier, navigator: DestinationsNavigat
                                     .padding(paddingValues),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = (uiState as UiState.Error).message ?: "Unknown error", color = Color.Red)
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = (uiState as UiState.Error).message ?: "Unknown error",
+                                        color = Color.Red
+                                    )
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Button(
+                                        onClick = {
+                                            coroutineScope.launch {
+                                                refreshing.value = true
+                                                withContext(Dispatchers.IO) {
+                                                    viewModel.refreshProducts()
+                                                }
+                                                refreshing.value = false
+                                            }
+                                        }
+                                    ) {
+                                        Text(text = "Retry")
+                                    }
+                                }
                             }
                         }
+
                     }
                 }
                 PullRefreshIndicator(

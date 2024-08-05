@@ -1,6 +1,7 @@
 plugins {
     id("ecommerceshop.library")
     id("ecommerceshop.library.compose")
+    id("ecommerceshop.testing")
 }
 
 android {

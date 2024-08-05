@@ -15,7 +15,4 @@ data class ProductItemResponse(
     val quantity: Int,
     val imageLocation: String,
     val status: String
-) {
-    val priceString: String
-        get() = "$currencySymbol$price"
-}
+)

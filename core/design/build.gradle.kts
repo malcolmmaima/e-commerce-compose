@@ -6,7 +6,3 @@ plugins {
 android {
     namespace = "com.shop.core.design"
 }
-
-dependencies {
-    implementation(libs.material)
-}

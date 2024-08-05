@@ -8,6 +8,7 @@ import com.shop.features.networking.data.ProductItemResponse
 import com.shop.features.networking.repository.ProductRepository
 import com.shop.features.networking.util.APIResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -67,7 +68,7 @@ class ProductsViewModel @Inject constructor(
     }
 
     fun addToCart(product: ProductItemResponse, selectedQuantity: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             cartRepository.addToCart(product, selectedQuantity)
         }
     }

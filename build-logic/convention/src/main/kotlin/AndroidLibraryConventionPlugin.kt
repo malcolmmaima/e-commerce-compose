@@ -45,6 +45,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             dependencies {
                 add("testImplementation", kotlin("test"))
                 add("implementation", (libs.findLibrary("timber").get()))
+                add("implementation", (libs.findLibrary("material").get()))
             }
         }
     }
