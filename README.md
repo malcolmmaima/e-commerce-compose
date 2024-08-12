@@ -55,7 +55,6 @@ Can depend on one another but should avoid cyclical dependencies.
 - Retrofit (2.9.0): Simplifies REST API interactions and data fetching.
 - OkHttp (4.11.0): Manages network operations and logging for HTTP requests.
 - Build Logic Convention: Defines and maintains consistent build practices and management.
-- Eithernet (1.2.1): Sealed API result type to handle Retrofit responses effectively.
 - Moshi (1.15.0): Converts JSON into Kotlin objects and vice versa.
 
 #### App Artifacts
